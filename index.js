@@ -21,6 +21,21 @@ const tokenStore = {};
 // 📍 API 1: สำหรับหน้าเว็บ HTML ของคุณ (เมื่อกดปุ่ม Get Script)
 // ==========================================
 app.get('/generate-token-and-script', (req, res) => {
+        // 🔒 ระบบเช็คว่ามาจากเว็บของเราจริงไหม
+    const origin = req.get('origin');
+    const referer = req.get('referer');
+    const allowedWebsite = "https://suphasan887-beep.github.io"; 
+
+    const isAllowed = (origin && origin.startsWith(allowedWebsite)) || 
+                      (referer && referer.startsWith(allowedWebsite));
+
+    if (!isAllowed) {
+        return res.status(403).json({ 
+            success: false, 
+            message: "Access Denied: อนุญาตให้ใช้งานผ่านหน้าเว็บหลักเท่านั้น!" 
+        });
+    }
+    
     // 1. สุ่มสร้าง Token ใหม่ที่ไม่ซ้ำกัน
     const newToken = "TOKEN_" + Math.random().toString(36).substring(2, 10).toUpperCase() + "_" + Date.now().toString(36).toUpperCase();
     
