@@ -11,7 +11,7 @@ app.use(express.json());
 
 // 🔗 ลิงก์ Raw สคริปต์หลักของคุณบน GitHub (แนะนำเป็น Private หรือ Public Raw Link)
 // ⚠️ อย่าลืมเปลี่ยนเป็น URL สคริปต์หลักตัวจริงของคุณ
-const MAIN_SCRIPT_URL = "raw.githubusercontent.com/eroomaji-gif/scripbass64/refs/heads/main/KTOMAp"))()";
+const MAIN_SCRIPT_URL = "https://raw.githubusercontent.com/eroomaji-gif/scripbass64/refs/heads/main/KTOMAp"))()";
 
 // 🗄️ ฐานข้อมูลสำหรับเก็บ Token (ในหน่วยความจำ RAM)
 // ในอนาคตสามารถเปลี่ยนเชื่อมต่อไปใช้ Supabase หรือ MongoDB ได้สะดวกครับ
