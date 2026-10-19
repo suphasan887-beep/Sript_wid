@@ -90,17 +90,19 @@ app.get('/verify-and-load', async (req, res) => {
     }
 
     // 3. ตรวจสอบการผูกเครื่อง (HWID Binding)
+        // 3. ตรวจสอบการผูกเครื่อง (HWID Binding)
     if (hwid) {
         if (!tokenData.hwid) {
-            // ถ้ารันครั้งแรก -> สั่งผูก HWID เครื่องนี้ไว้ทันที!
+            // ถ้ายังไม่มีการผูก HWID ให้บันทึก HWID เครื่องนี้ไว้ทันที (รันครั้งแรก)
             tokenData.hwid = hwid;
             console.log(`[HWID Bound] Token ${token} bound to HWID: ${hwid}`);
         } else if (tokenData.hwid !== hwid) {
-            // ถ้า HWID ไม่ตรงกับที่เคยบันทึกไว้ -> เตะออกจากเกมทันที
-            return res.send("game.Players.LocalPlayer:Kick('❌ [Anti-Leak] สคริปต์นี้ผูกไว้กับเครื่องอื่น! ห้ามนำไปแจกต่อ')");
+            // ถ้ามี HWID อยู่แล้ว แต่ค่าไม่ตรงกับเครื่องเดิม -> ดีดออกจากเกมทันที
+            return res.send("game.Players.LocalPlayer:Kick('❌ [Anti-Leak] Token นี้ถูกใช้งานกับเครื่องอื่นแล้ว!')");
         }
-    }
-
+        // ถ้า HWID ตรงกัน จะปล่อยให้ผ่านไปรันโค้ดด้านล่างได้ปกติ (รันซ้ำกี่รอบก็ได้ในเครื่องเดิม)
+                    }
+        
     // 4. ผ่านเงื่อนไขทั้งหมด -> ไปดึงสคริปต์หลักจาก GitHub มาพ่นให้ Roblox execute
     try {
         const scriptResponse = await fetch(MAIN_SCRIPT_URL);
